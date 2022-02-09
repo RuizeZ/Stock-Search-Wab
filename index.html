@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css" type="text/css">
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div class="h1-header">
+        <p>Stock Search</p>
+    </div>
+    <div class="search-bar">
+        <form class="container" id="query-form" onsubmit="return false">
+            <button type="submit">
+                <img class="searchbutton" src="img/search-solid.svg" alt="search-button"
+                    onclick="checkInput(document.getElementById('query').value)">
+            </button>
+            <input type="text" placeholder="Enter Stock Ticker Symbol" id="query"
+                onkeydown="checkInput(document.getElementById('query').value)" required>
+            <div class="clear-button"
+                onclick="document.getElementById('query').value = ''; document.getElementById('error-message').style.display='none';">
+                <img src="img/times-solid.svg" alt="clear-button">
+            </div>
+        </form>
+    </div>
+    <div class="error-message" id="error-message">
+        <div class="container">
+            <p>Error: No record has been found, please enter a valid symbol</p>
+        </div>
+    </div>
+</body>
+
+</html>

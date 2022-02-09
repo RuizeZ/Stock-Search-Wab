@@ -1,0 +1,110 @@
+body {
+  background-image: url(../img/back.svg);
+  background-repeat: no-repeat;
+  background-position-x: -350px;
+}
+
+.h1-header {
+  margin-top: 50px;
+  font-size: 2em;
+  color: gray;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.search-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 2em;
+}
+
+.search-bar .container {
+  border-radius: 1em;
+  -webkit-box-shadow: 2px 2px #c7c7c7;
+          box-shadow: 2px 2px #c7c7c7;
+  width: 800px;
+  background: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 .5em;
+  height: 50px;
+}
+
+.search-bar .container button {
+  width: 20px;
+  border: none;
+  background: white;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.search-bar .container input {
+  height: 80%;
+  width: 100%;
+  background: white;
+  font-size: 1.2em;
+  color: gray;
+  margin: 0 1em 0 1.5em;
+  border: none;
+  outline: none;
+  border-right: 2px solid #c7c7c7;
+}
+
+.search-bar .container img {
+  -webkit-filter: opacity(0.5);
+          filter: opacity(0.5);
+}
+
+.search-bar .container :hover img {
+  -webkit-filter: opacity(1);
+          filter: opacity(1);
+}
+
+.search-bar .container .searchbutton {
+  cursor: pointer;
+  width: 15px;
+}
+
+.search-bar .container .searchbutton :hover {
+  -webkit-filter: opacity(1);
+          filter: opacity(1);
+}
+
+.search-bar .container .clear-button {
+  cursor: pointer;
+  margin: 5px 10px 0 0;
+  width: 12px;
+}
+
+.error-message {
+  display: none;
+  margin-top: 15em;
+}
+
+.error-message .container {
+  width: 700px;
+  margin: 0 auto;
+  background: #e7e7e7;
+  text-align: center;
+  color: #666666;
+  border-radius: 1em;
+  height: 50px;
+}
+
+.error-message .container p {
+  font-size: 1.2em;
+  font-family: sans-serif;
+  padding-top: .7em;
+}
+/*# sourceMappingURL=index.css.map */

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 import finnhub
 from dateutil.relativedelta import *
 import datetime
@@ -37,42 +37,39 @@ def home_times():
 def home_back():
     return app.send_static_file('back.svg')
 
+@app.route("/RedArrowDown.png")
+def RedArrowDown():
+    return app.send_static_file('RedArrowDown.png')
 
-@app.route("/company=<companyName>", methods=["GET"])
-def company(companyName):
+@app.route("/GreenArrowUp.png")
+def GreenArrowUp():
+    return app.send_static_file('GreenArrowUp.png')
+
+@app.route("/company=<companyName>&try=<try_time>", methods=["GET"])
+def company(companyName, try_time):
     print("company")
     companyName = companyName.upper()
-    company = finnhub_client.company_profile2(symbol=companyName)
-    return jsonify(company)
-
-@app.route("/summary=<companyName>", methods=["GET"])
-def summary(companyName):
-    print("summary")
-    companyName = companyName.upper()
-    print(companyName)
-    summary = finnhub_client.quote(companyName)
-    print(summary)
-    recommendation = finnhub_client.recommendation_trends(companyName)
-    return_data = {}
-    return_data["summary"] = summary
-    return_data["recommendation"] = recommendation
-    return jsonify(return_data)
-
-@app.route("/charts=<companyName>", methods=["GET"])
-def charts(companyName):
-    print("charts")
-    companyName = companyName.upper()
-    TODAY = datetime.date.today()
-    historical_data_startdate = TODAY + relativedelta(months=-6, days=-1)
-    historical_data_startdate = int(time.mktime(historical_data_startdate.timetuple()))
-    historical_data_enddate = int(time.mktime(TODAY.timetuple()))
-    historical_data = finnhub_client.stock_candles(companyName, 'D', historical_data_startdate, historical_data_enddate)
-    return jsonify(historical_data)
-@app.route("/news=<companyName>", methods=["GET"])
-def news(companyName):
-    print("news")
-    companyName = companyName.upper()
-    TODAY = datetime.date.today()
-    company_news_startdate = TODAY + relativedelta(days=-30)
-    company_news = finnhub_client.company_news(companyName, _from=company_news_startdate, to=TODAY)
-    return jsonify(company_news)
+    if try_time == '0':
+        #check valid companyName
+        company = finnhub_client.company_profile2(symbol=companyName)
+        return jsonify(company)
+    else:
+        print("try_time != 0")
+        #call APIs
+        return_data = {}
+        #info for tab2
+        return_data["summary"] = finnhub_client.quote(companyName)
+        print(return_data["summary"])
+        return_data["recommendation"] = finnhub_client.recommendation_trends(companyName)
+        #info for tab3
+        TODAY = datetime.date.today()
+        historical_data_startdate = TODAY + relativedelta(months=-6, days=-1)
+        historical_data_startdate = int(time.mktime(historical_data_startdate.timetuple()))
+        historical_data_enddate = int(time.mktime(TODAY.timetuple()))
+        print(historical_data_startdate)
+        print(historical_data_enddate)
+        return_data["charts"] = finnhub_client.stock_candles(companyName, 'D', historical_data_startdate, historical_data_enddate)
+        #info for tab4
+        company_news_startdate = TODAY + relativedelta(days=-30)
+        return_data["news"] = finnhub_client.company_news(companyName, _from=company_news_startdate, to=TODAY)
+        return jsonify(return_data)

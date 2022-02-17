@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="index.css" type="text/css">
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
 </head>
 
 <body>
@@ -31,39 +32,48 @@
         </div>
     </div>
     <div class="tab_button" id="tab">
-        <button class="tablinks" onclick=>Company</button>
-        <button class="tablinks" onclick=>Stock Summary</button>
-        <button class="tablinks" onclick=>Charts</button>
-        <button class="tablinks" onclick=>Latest News</button>
+        <button class="tablinks" onclick="openTab('company')">Company</button>
+        <button class="tablinks" onclick="openTab('summary')">Stock Summary</button>
+        <button class="tablinks" onclick="openTab('charts')">Charts</button>
+        <button class="tablinks" onclick="openTab('news')">Latest News</button>
     </div>
     <div class="tab_content" id="company">
-        <img id="company_img"src="" alt="" class="logo">
+        <img id="company_img" src="" alt="" class="logo">
         <p id="name1P">Company Name <span id="name1S"></span></p>
         <p id="symbol1P">Stock Ticker Symbol <span id="symbol1S"></span></p>
         <p id="code1P">Stock Exchange Code <span id="code1S"></span></p>
         <p id="date1P">Company Start Date <span id="date1S"></span></p>
         <p id="category1P">Category <span id="category1S"></span></p>
     </div>
-    <div class="tab_content" id="Summary">
+    <div class="tab_content" id="summary">
         <p id="symbol2P">Stock Ticker Symbol <span id="symbol2S"></span></p>
         <p id="day2P">Trading Day <span id="day2S"></span></p>
         <p id="closingprice2P">Previous Closing Price <span id="closingprice2S"></span></p>
         <p id="openingprice2P">Opening Price <span id="openingprice2S"></span></p>
         <p id="highprice2P">High Price <span id="highprice2S"></span></p>
         <p id="lowprice2P">Low Price <span id="lowprice2S"></span></p>
-        <p id="change2P">Change <span id="change2S"></span></p>
-        <p id="percent2P">Change Percent <span id="percent2S"></span></p>
+        <p id="change2P">Change <span id="change2S"></span>
+            <img id="change_img" src="" alt="">
+        </p>
+        <p id="percent2P">Change Percent <span id="percent2S"></span>
+            <img id="change_percent" src="" alt="">
+        </p>
     </div>
+    <div class="tab_content" id="recommendation">
+        <p>Strong Sell</p>
+        <p id="recommendation1"></p>
+        <p id="recommendation2"></p>
+        <p id="recommendation3"></p>
+        <p id="recommendation4"></p>
+        <p id="recommendation5"></p>
+        <p>Strong Buy</p>
+    </div>
+
     <div class="tab_content" id="charts">
-        <img id="company_img"src="" alt="" class="logo">
-        <p id="nameP">Company Name <span id="nameS"></span></p>
-        <p id="symbolP">Stock Ticker Symbol <span id="symbolS"></span></p>
-        <p id="codeP">Stock Exchange Code <span id="codeS"></span></p>
-        <p id="dateP">Company Start Date <span id="dateS"></span></p>
-        <p id="categoryP">Category <span id="categoryS"></span></p>
+        <div id="chart_container"></div>
     </div>
     <div class="tab_content" id="news">
-        <img id="company_img"src="" alt="" class="logo">
+        <img id="company_img" src="" alt="" class="logo">
         <p id="nameP">Company Name <span id="nameS"></span></p>
         <p id="symbolP">Stock Ticker Symbol <span id="symbolS"></span></p>
         <p id="codeP">Stock Exchange Code <span id="codeS"></span></p>

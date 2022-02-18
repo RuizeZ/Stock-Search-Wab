@@ -1,10 +1,15 @@
-function convertTime(tab) {
-    var date = new Date(total_data["summary"]["t"] * 1000);
+function convertTime(tab, time) {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var date;
+    if (tab.localeCompare("news") === 0) {
+        date = new Date(time * 1000);
+    } else {
+        date = new Date(total_data["summary"]["t"] * 1000);
+    }
     var year = date.getFullYear();
     var month = months[date.getMonth()];
     var dateNum = date.getDate();
-    if (tab.localeCompare("summary") === 0) {
+    if (tab.localeCompare("summary") === 0 || tab.localeCompare("news") === 0) {
         return dateNum + ' ' + month + ', ' + year
     } else {
         return ' ' + year + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(dateNum).padStart(2, '0')
@@ -18,6 +23,31 @@ function openTab(tabName) {
     }
     document.getElementById(tabName).style.display = "inherit";
 }
+function showNews() {
+    newsArr = total_data['news']
+    checkArr = ["image", "url", "headline", "datetime"];
+    newsIdArr = ["news1", "news2", "news3", "news4", "news5"];
+    index = 0;
+    count = 0;
+    while (index < newsArr.length && count < 5) {
+        currNews = newsArr[index];
+        nextNews = false;
+        for (check of checkArr) {
+            if (!(check in currNews) || currNews[check].toString().length === 0) {
+                nextNews = true;
+                break;
+            }
+        }
+        if (!nextNews) {
+            document.getElementById(newsIdArr[count] + "_img").src = currNews["image"];
+            document.getElementById(newsIdArr[count] + "_p").textContent = currNews["headline"];
+            document.getElementById(newsIdArr[count] + "_time").textContent = convertTime("news", currNews["datetime"]);
+            document.getElementById(newsIdArr[count] + "_a").href = currNews["url"];
+            count++;
+        }
+        index++;
+    }
+}
 function showCompany() {
     document.getElementById("company_img").src = total_data['company']["logo"];
     document.getElementById("name1S").textContent = total_data['company']["name"];
@@ -28,26 +58,21 @@ function showCompany() {
 }
 function showSummary() {
     document.getElementById("symbol2S").textContent = total_data['company']["ticker"];
-    document.getElementById("day2S").textContent = convertTime("summary");
+    document.getElementById("day2S").textContent = convertTime("summary", null);
     document.getElementById("closingprice2S").textContent = total_data["summary"]["pc"];
     document.getElementById("openingprice2S").textContent = total_data["summary"]["o"];
     document.getElementById("highprice2S").textContent = total_data["summary"]["h"];
     document.getElementById("lowprice2S").textContent = total_data["summary"]["l"];
     document.getElementById("change2S").textContent = total_data["summary"]["d"];
-    console.log(document.getElementById("change2S"))
     if (total_data["summary"]["d"] < 0) {
-        console.log(document.getElementById("change_img"))
         document.getElementById("change_img").src = "RedArrowDown.png";
     } else if (total_data["summary"]["d"] > 0) {
-        console.log(document.getElementById("change_img"))
         document.getElementById("change_img").src = "GreenArrowUp.png";
     }
     document.getElementById("percent2S").textContent = total_data["summary"]["dp"];
     if (total_data["summary"]["dp"] < 0) {
-        console.log(document.getElementById("change_percent"))
         document.getElementById("change_percent").src = "RedArrowDown.png";
     } else if (total_data["summary"]["dp"] > 0) {
-        console.log(document.getElementById("change_percent"))
         document.getElementById("change_percent").src = "GreenArrowUp.png";
     }
     document.getElementById("recommendation1").textContent = total_data['recommendation'][0]["strongSell"];
@@ -67,8 +92,6 @@ function getCompany(companyName) {
             } else {
                 document.getElementById("error-message").style.display = "none";
                 document.getElementById("tab").style.display = "inherit";
-                console.log('company');
-                console.log(company);
                 total_data['company'] = company;
                 callAPI(companyName);
             }
@@ -83,12 +106,12 @@ function callAPI(companyName) {
         if (this.readyState == 4 && this.status == 200) {
             return_data = JSON.parse(this.responseText);
             console.log("data: ");
-            console.log(total_data);
             total_data = Object.assign({}, return_data, total_data);
             console.log(total_data);
             showCompany();
             showSummary();
             createChart();
+            showNews();
             openTab("company");
         }
     };
@@ -116,14 +139,13 @@ function createChart() {
         volumeArr.push([date[i] * 1000, volume[i]]);
         priceArr.push([date[i] * 1000, price[i]])
     }
-    console.log(volumeArr)
     // create the chart
     Highcharts.stockChart('chart_container', {
         chart: {
             height: 600
         },
         title: {
-            text: 'Stock Price' + ' ' + total_data['company']["ticker"] + convertTime('charts')
+            text: 'Stock Price' + ' ' + total_data['company']["ticker"] + convertTime('charts', null)
         },
 
         subtitle: {
@@ -134,7 +156,7 @@ function createChart() {
             title: {
                 text: 'Volume',
             },
-            labels:{
+            labels: {
                 align: 'right'
             }
         }, {
@@ -180,7 +202,7 @@ function createChart() {
             },
             areaspline: {
                 threshold: null
-              }
+            }
         },
         series: [
             {

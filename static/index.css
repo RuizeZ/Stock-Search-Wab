@@ -1,27 +1,21 @@
 body {
+  width: 1520px;
   background-image: url(back.svg);
+  background-size: 1520px 300px;
   background-repeat: no-repeat;
-  background-position-x: -350px;
+  font-family: sans-serif;
 }
 
 .h1-header {
   margin-top: 50px;
   font-size: 2em;
   color: gray;
-  text-align: center;
+  margin-left: 700px;
   font-family: sans-serif;
 }
 
 .search-bar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  margin-left: 400px;
   margin-top: 2em;
 }
 
@@ -108,7 +102,213 @@ body {
   padding-top: .7em;
 }
 
+.tab_button {
+  display: none;
+  margin-top: 10em;
+}
+
+.tab_button .container {
+  margin-left: 10px;
+  background-color: #fafafa;
+}
+
+.tab_button .container button {
+  color: gray;
+  background-color: #fafafa;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  padding: 15px;
+}
+
+.tab_button .container :hover {
+  background-color: #b8b8b8;
+}
+
 .tab_content {
   display: none;
+}
+
+#company {
+  font-size: 0px;
+}
+
+#company img {
+  display: block;
+  height: 200px;
+  width: 200px;
+  margin: 20px 0 10px 45%;
+}
+
+#company .query {
+  font-size: 1rem;
+  text-align: right;
+  display: inline-block;
+  width: 20em;
+  margin-left: 470px;
+}
+
+#company .query p {
+  color: black;
+  font-weight: bold;
+  margin: 0;
+  padding: 5px 5px;
+  border: 2px solid gainsboro;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+#company .query #category1P {
+  border-bottom: 2px solid gainsboro;
+}
+
+#company .answer {
+  font-size: 1rem;
+  display: inline-block;
+  margin: 0;
+}
+
+#company .answer p {
+  padding: 5px 5px;
+  color: #6e6e6e;
+  margin: 0;
+  padding-left: 10px;
+  border: 2px solid gainsboro;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+#company .answer #category1S {
+  border-bottom: 2px solid gainsboro;
+}
+
+#summary {
+  margin-left: 600px;
+  margin-top: 20px;
+  font-size: 0px;
+}
+
+#summary .query {
+  font-size: 1rem;
+  text-align: right;
+  display: inline-block;
+}
+
+#summary .query p {
+  color: black;
+  font-weight: bold;
+  margin: 0;
+  padding: 5px 5px;
+  border: 2px solid gainsboro;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+#summary .query #percent2P {
+  border-bottom: 2px solid gainsboro;
+}
+
+#summary .answer {
+  font-size: 1rem;
+  display: inline-block;
+}
+
+#summary .answer p {
+  padding: 5px 5px;
+  color: #6e6e6e;
+  margin: 0;
+  padding-left: 10px;
+  border: 2px solid gainsboro;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+#summary .answer img {
+  height: 14px;
+  width: 14px;
+}
+
+#summary .answer #percent2S {
+  border-bottom: 2px solid gainsboro;
+}
+
+#recommendation {
+  margin: 0;
+  font-size: 0px;
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 600px;
+}
+
+#recommendation p {
+  margin: 0;
+  font-size: 1rem;
+  width: 45px;
+  height: 35px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#recommendation #recommendation1 {
+  margin-left: 10px;
+  color: white;
+  padding-top: 10px;
+  background-color: red;
+}
+
+#recommendation #recommendation2 {
+  color: white;
+  padding-top: 10px;
+  background-color: #b15f49;
+}
+
+#recommendation #recommendation3 {
+  color: white;
+  padding-top: 10px;
+  background-color: #77945c;
+}
+
+#recommendation #recommendation4 {
+  color: white;
+  padding-top: 10px;
+  background-color: #3bca6e;
+}
+
+#recommendation #recommendation5 {
+  margin-right: 10px;
+  color: white;
+  padding-top: 10px;
+  background-color: lightgreen;
+}
+
+#recommendation #sentence {
+  color: #6e6e6e;
+  margin-top: 20px;
+  width: 225px;
+  margin-left: 55px;
+  letter-spacing: 2px;
+}
+
+#news img {
+  height: 150px;
+  width: 150px;
+  float: left;
+  margin-right: 10px;
+}
+
+#news div {
+  margin: 20px auto;
+  background-color: #fafafa;
+  height: 150px;
+  padding: 20px;
+}
+
+#news .news_title {
+  font-weight: bold;
 }
 /*# sourceMappingURL=index.css.map */

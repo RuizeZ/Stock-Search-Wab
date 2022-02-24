@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stock Search</title>
     <link rel="stylesheet" href="index.css" type="text/css">
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <link rel="shortcut icon" href="data:;base64,=">
 </head>
 
 <body>
@@ -19,9 +20,9 @@
             <button type="submit">
                 <img class="searchbutton" src="search-solid.svg" alt="search-button">
             </button>
-            <input type="text" placeholder="Enter Stock Ticker Symbol" id="query" name="company" required>
+            <input type="text" placeholder="Enter Stock Ticker Symbol" id="query" onkeydown="document.getElementById('error-message').style.display='none'; hideAll()" name="company" required>
             <div class="clear-button"
-                onclick="document.getElementById('query').value = ''; document.getElementById('error-message').style.display='none';">
+                onclick="document.getElementById('query').value = ''; document.getElementById('error-message').style.display='none'; hideAll()">
                 <img src="times-solid.svg" alt="clear-button">
             </div>
         </form>
@@ -32,71 +33,95 @@
         </div>
     </div>
     <div class="tab_button" id="tab">
-        <button class="tablinks" onclick="openTab('company')">Company</button>
-        <button class="tablinks" onclick="openTab('summary')">Stock Summary</button>
-        <button class="tablinks" onclick="openTab('charts')">Charts</button>
-        <button class="tablinks" onclick="openTab('news')">Latest News</button>
+        <div class="container">
+            <button class="tablinks" onclick="openTab('company')">Company</button>
+            <button class="tablinks" onclick="openTab('summary')">Stock Summary</button>
+            <button class="tablinks" onclick="openTab('charts')">Charts</button>
+            <button class="tablinks" onclick="openTab('news')">Latest News</button>
+        </div>
     </div>
     <div class="tab_content" id="company">
         <img id="company_img" src="" alt="" class="logo">
-        <p id="name1P">Company Name <span id="name1S"></span></p>
-        <p id="symbol1P">Stock Ticker Symbol <span id="symbol1S"></span></p>
-        <p id="code1P">Stock Exchange Code <span id="code1S"></span></p>
-        <p id="date1P">Company Start Date <span id="date1S"></span></p>
-        <p id="category1P">Category <span id="category1S"></span></p>
+        <div class="query">
+            <p id="name1P">Company Name</p>
+            <p id="symbol1P">Stock Ticker Symbol</p>
+            <p id="code1P">Stock Exchange Code</p>
+            <p id="date1P">Company Start Date</p>
+            <p id="category1P">Category </p>
+        </div>
+        <div class="answer">
+            <p id="name1S"></p>
+            <p id="symbol1S"></p>
+            <p id="code1S"></p>
+            <p id="date1S"></p>
+            <p id="category1S"></p>
+        </div>
     </div>
     <div class="tab_content" id="summary">
-        <p id="symbol2P">Stock Ticker Symbol <span id="symbol2S"></span></p>
-        <p id="day2P">Trading Day <span id="day2S"></span></p>
-        <p id="closingprice2P">Previous Closing Price <span id="closingprice2S"></span></p>
-        <p id="openingprice2P">Opening Price <span id="openingprice2S"></span></p>
-        <p id="highprice2P">High Price <span id="highprice2S"></span></p>
-        <p id="lowprice2P">Low Price <span id="lowprice2S"></span></p>
-        <p id="change2P">Change <span id="change2S"></span>
-            <img id="change_img" src="" alt="">
-        </p>
-        <p id="percent2P">Change Percent <span id="percent2S"></span>
-            <img id="change_percent" src="" alt="">
-        </p>
+        <div class="query">
+            <p id="symbol2P">Stock Ticker Symbol</p>
+            <p id="day2P">Trading Day</p>
+            <p id="closingprice2P">Previous Closing Price </p>
+            <p id="openingprice2P">Opening Price </p>
+            <p id="highprice2P">High Price </p>
+            <p id="lowprice2P">Low Price </p>
+            <p id="change2P">Change</p>
+            <p id="percent2P">Change Percent</p>
+        </div>
+        <div class="answer">
+            <p id="symbol2S"></p>
+            <p id="day2S"></p>
+            <p id="closingprice2S"></p>
+            <p id="openingprice2S"></p>
+            <p id="highprice2S"></p>
+            <p id="lowprice2S"></p>
+            <p id="change2S">
+            </p>
+            <p id="percent2S">
+            </p>
+
+        </div>
     </div>
     <div class="tab_content" id="recommendation">
-        <p>Strong Sell</p>
+        <p style="color:red;">Strong Sell</p>
         <p id="recommendation1"></p>
         <p id="recommendation2"></p>
         <p id="recommendation3"></p>
         <p id="recommendation4"></p>
         <p id="recommendation5"></p>
-        <p>Strong Buy</p>
+        <p style="color:green;">Strong Buy</p>
+        <div><p id="sentence">Recommendation Trends</p></div>
     </div>
+    
 
     <div class="tab_content" id="charts">
         <div id="chart_container"></div>
     </div>
     <div class="tab_content" id="news">
         <div id="news1"><img id="news1_img" src="" alt="" class="logo">
-            <p id="news1_p"></p>
+            <p class="news_title" id="news1_p"></p>
             <p id="news1_time"></p>
-            <a id="news1_a" href="">See Original Post</a>
+            <a id="news1_a" href="" target="_blank">See Original Post</a>
         </div>
         <div id="news2"><img id="news2_img" src="" alt="" class="logo">
-            <p id="news2_p"></p>
+            <p class="news_title" id="news2_p"></p>
             <p id="news2_time"></p>
-            <a id="news2_a" href="">See Original Post</a>
+            <a id="news2_a" href="" target="_blank">See Original Post</a>
         </div>
         <div id="news3"><img id="news3_img" src="" alt="" class="logo">
-            <p id="news3_p"></p>
+            <p class="news_title" id="news3_p"></p>
             <p id="news3_time"></p>
-            <a id="news3_a" href="">See Original Post</a>
+            <a id="news3_a" href="" target="_blank">See Original Post</a>
         </div>
         <div id="news4"><img id="news4_img" src="" alt="" class="logo">
-            <p id="news4_p"></p>
+            <p class="news_title" id="news4_p"></p>
             <p id="news4_time"></p>
-            <a id="news4_a" href="">See Original Post</a>
+            <a id="news4_a" href="" target="_blank">See Original Post</a>
         </div>
         <div id="news5"><img id="news5_img" src="" alt="" class="logo">
-            <p id="news5_p"></p>
+            <p class="news_title" id="news5_p"></p>
             <p id="news5_time"></p>
-            <a id="news5_a" href="">See Original Post</a>
+            <a id="news5_a" href="" target="_blank">See Original Post</a>
         </div>
     </div>
 </body>

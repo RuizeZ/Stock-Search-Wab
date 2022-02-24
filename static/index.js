@@ -1,9 +1,20 @@
+function hideAll() {
+    tabContent = document.getElementsByClassName("tab_content");
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+    document.getElementById("tab").style.display = "none";
+    document.getElementById("company_img").src = "";
+}
 function convertTime(tab, time) {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var date;
     if (tab.localeCompare("news") === 0) {
         date = new Date(time * 1000);
-    } else {
+    } else if (tab.localeCompare("charts") === 0) {
+        date = new Date(total_data["charts"]["t"][0] * 1000);
+    }
+    else {
         date = new Date(total_data["summary"]["t"] * 1000);
     }
     var year = date.getFullYear();
@@ -12,7 +23,7 @@ function convertTime(tab, time) {
     if (tab.localeCompare("summary") === 0 || tab.localeCompare("news") === 0) {
         return dateNum + ' ' + month + ', ' + year
     } else {
-        return ' ' + year + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(dateNum).padStart(2, '0')
+        return ' ' + year + '-' + String(date.getUTCMonth() + 1).padStart(2, '0') + '-' + String(date.getUTCDate()).padStart(2, '0')
     }
 }
 
@@ -22,6 +33,9 @@ function openTab(tabName) {
         tabContent[i].style.display = "none";
     }
     document.getElementById(tabName).style.display = "inherit";
+    if (tabName.localeCompare("summary") === 0) {
+        document.getElementById("recommendation").style.display = "inherit";
+    }
 }
 function showNews() {
     newsArr = total_data['news']
@@ -50,7 +64,7 @@ function showNews() {
 }
 function showCompany() {
     document.getElementById("company_img").src = total_data['company']["logo"];
-    document.getElementById("name1S").textContent = total_data['company']["name"];
+    document.getElementById("name1S").innerHTML = total_data['company']["name"];
     document.getElementById("symbol1S").textContent = total_data['company']["ticker"];
     document.getElementById("code1S").textContent = total_data['company']["exchange"];
     document.getElementById("date1S").textContent = total_data['company']["ipo"];
@@ -64,17 +78,23 @@ function showSummary() {
     document.getElementById("highprice2S").textContent = total_data["summary"]["h"];
     document.getElementById("lowprice2S").textContent = total_data["summary"]["l"];
     document.getElementById("change2S").textContent = total_data["summary"]["d"];
+    var elem = document.createElement("img");
+    elem.alt = "Logo"
     if (total_data["summary"]["d"] < 0) {
-        document.getElementById("change_img").src = "RedArrowDown.png";
+        elem.src = "RedArrowDown.png";
     } else if (total_data["summary"]["d"] > 0) {
-        document.getElementById("change_img").src = "GreenArrowUp.png";
+        elem.src = "GreenArrowUp.png";
     }
+    document.getElementById("change2S").appendChild(elem);
     document.getElementById("percent2S").textContent = total_data["summary"]["dp"];
+    var elem1 = document.createElement("img");
+    elem1.alt = "Logo"
     if (total_data["summary"]["dp"] < 0) {
-        document.getElementById("change_percent").src = "RedArrowDown.png";
+        elem1.src = "RedArrowDown.png";
     } else if (total_data["summary"]["dp"] > 0) {
-        document.getElementById("change_percent").src = "GreenArrowUp.png";
+        elem1.src = "GreenArrowUp.png";
     }
+    document.getElementById("percent2S").appendChild(elem1);
     document.getElementById("recommendation1").textContent = total_data['recommendation'][0]["strongSell"];
     document.getElementById("recommendation2").textContent = total_data['recommendation'][0]["sell"];
     document.getElementById("recommendation3").textContent = total_data['recommendation'][0]["hold"];
@@ -85,38 +105,48 @@ function getCompany(companyName) {
     httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            company = JSON.parse(this.responseText);
-            if (Object.keys(company).length === 0) {
+            total_data = JSON.parse(this.responseText);
+            if (Object.keys(total_data).length === 0) {
                 document.getElementById("error-message").style.display = "inherit";
                 document.getElementById("tab").style.display = "none";
+                tabContent = document.getElementsByClassName("tab_content");
+                for (i = 0; i < tabContent.length; i++) {
+                    tabContent[i].style.display = "none";
+                }
             } else {
+                showCompany();
                 document.getElementById("error-message").style.display = "none";
-                document.getElementById("tab").style.display = "inherit";
-                total_data['company'] = company;
-                callAPI(companyName);
+                // total_data['company'] = company;
+                // callAPI(companyName);
+                showInfo()
             }
         }
     };
-    httpRequest.open("GET", "/company=" + companyName + "&try=0");
+    httpRequest.open("GET", "/company=" + companyName);
     httpRequest.send();
 }
-function callAPI(companyName) {
-    httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            return_data = JSON.parse(this.responseText);
-            console.log("data: ");
-            total_data = Object.assign({}, return_data, total_data);
-            console.log(total_data);
-            showCompany();
-            showSummary();
-            createChart();
-            showNews();
-            openTab("company");
-        }
-    };
-    httpRequest.open("GET", "/company=" + companyName + "&try=1");
-    httpRequest.send();
+function showInfo() {
+    console.log(total_data)
+    document.getElementById("tab").style.display = "inherit";
+    showSummary();
+    openTab("company");
+    createChart();
+    showNews();
+    // httpRequest = new XMLHttpRequest();
+    // httpRequest.onreadystatechange = function () {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         return_data = JSON.parse(this.responseText);
+    //         total_data = Object.assign({}, return_data, total_data);
+    //         console.log(total_data);
+
+    //     }
+    // };
+    // httpRequest.open("GET", "/company=" + companyName + "&try=1");
+    // httpRequest.send();
+    // showCompany();
+    // document.getElementById("tab").style.display = "inherit";
+    // openTab("company");
+
 }
 const form = document.getElementById("query-form");
 var total_data = {};
@@ -127,8 +157,7 @@ form.addEventListener("submit", function (event) {
     getCompany(companyName);
 
 });
-usdtoeur = [1, 2, 3]
-let chart; // globally available
+let chart; // global
 function createChart() {
     date = total_data['charts']["t"];
     volume = total_data['charts']["v"];
@@ -142,14 +171,16 @@ function createChart() {
     // create the chart
     Highcharts.stockChart('chart_container', {
         chart: {
-            height: 600
+            height: 500,
+            width: 1500
         },
         title: {
             text: 'Stock Price' + ' ' + total_data['company']["ticker"] + convertTime('charts', null)
         },
 
         subtitle: {
-            text: 'Source: finnhub'
+            text: '<a href="https://finnhub.io\" target="_blank">Source: finnhub</a>',
+            useHTML: true
         },
         yAxis: [{
             // tickAmount: 8,
